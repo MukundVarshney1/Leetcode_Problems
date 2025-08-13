@@ -26,6 +26,6 @@ class Solution {
         int left=minmove(root.left);
         int right=minmove(root.right);
         ans+=Math.abs(left)+Math.abs(right);
-        return root.val + left + right -1;
+        return root.val + left + right -1;//return kar raha hai available kitne koin hai ya kitne chaiye
     }
 }
