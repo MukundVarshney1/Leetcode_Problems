@@ -34,7 +34,6 @@ class Solution {
         if(ans>=total){
             return true;
         }
-        System.out.println(ans);
         return false;
     }
 }
