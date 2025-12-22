@@ -1,35 +1,26 @@
 class Solution {
     public String longestNiceSubstring(String s) {
-        int c=0;
-        String ans="";
-        for(int i=0;i<s.length();i++){
-            for(int j=i+1;j<=s.length();j++){
-                int x=helper(s.substring(i,j));
-                if(x>c){
-                    c=x;
-                    ans=s.substring(i,j);
-                }
-            }
+        Set<Character> set= new HashSet<>();
+        for(char c:s.toCharArray()){
+            set.add(c);
         }
-        return ans;
-    }
-    public int helper(String s){
-        Set<Character> set=new HashSet<>();
+
         for(int i=0;i<s.length();i++){
-            set.add(s.charAt(i));
-        }
-        for(int i=0;i<s.length();i++){
-            if(s.charAt(i)>=65 && s.charAt(i)<=92){
-                if(!set.contains((char)(s.charAt(i)+32))){
-                    return 0;
+            char c= s.charAt(i);
+
+            if(!set.contains(Character.toLowerCase(c)) ||!set.contains(Character.toUpperCase(c))){
+
+                //split 
+                String left= longestNiceSubstring(s.substring(0,i));
+                String right= longestNiceSubstring(s.substring(i+1));
+
+                if(left.length()>=right.length()){
+                    return left;
+                }else{
+                    return right;
                 }
-            }
-            else if(s.charAt(i)>=97 && s.charAt(i)<=122){
-                if(!set.contains((char)(s.charAt(i)-32))){
-                    return 0;
-                }
-            }
+            } 
         }
-        return s.length();
+        return s;
     }
 }
