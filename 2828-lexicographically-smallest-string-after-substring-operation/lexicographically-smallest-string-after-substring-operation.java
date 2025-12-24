@@ -1,27 +1,20 @@
 class Solution {
     public String smallestString(String s) {
-        StringBuilder sb=new StringBuilder(s);
-        int c=0;
-        for(int i=0;i<s.length();i++){
-            if(c==0 && sb.charAt(i)=='a'){
-                continue;
-            }
-            if(c>0 && sb.charAt(i)=='a'){
-                break;
-            }
-            sb.setCharAt(i,(char)(sb.charAt(i)-1));
-            c++;
+        char arr[] =s.toCharArray();
+        int n= arr.length;
+        int i=0;
+        while(i<n && arr[i]=='a'){
+            i++;
         }
-        if(c>0){
-            return sb.toString();
+        // if all letter are a;
+        if(i==n){
+            arr[n-1]='z';
+            return new String(arr);
         }
-        for(int i=s.length()-1;i>=0;i--){
-            if(c>0 && sb.charAt(i)=='a'){
-                break;
-            }
-            c++;
-            sb.setCharAt(i,sb.charAt(i)=='a'?'z':(char)(sb.charAt(i)-1));
+        while(i<n && arr[i]!='a'){
+            arr[i]=(char)(arr[i]-1);
+            i++;
         }
-        return sb.toString();
+        return new String(arr);
     }
 }
