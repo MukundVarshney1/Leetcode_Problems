@@ -1,30 +1,39 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
-    long totalSum = 0;
-    long maxProd = 0;
-    static final int MOD = 1_000_000_007;
-
-    private void dfsTotal(TreeNode root) {
-        if (root == null) return;
-        totalSum += root.val;
-        dfsTotal(root.left);
-        dfsTotal(root.right);
-    }
-
-    private long dfs(TreeNode root) {
-        if (root == null) return 0;
-
-        long left = dfs(root.left);
-        long right = dfs(root.right);
-
-        long subSum = left + right + root.val;
-        maxProd = Math.max(maxProd, subSum * (totalSum - subSum));
-
-        return subSum;
-    }
-
+    long prod=0;
+    long mod=1000000007;
     public int maxProduct(TreeNode root) {
-        dfsTotal(root);
-        dfs(root);
-        return (int)(maxProd % MOD);
+        long sum=sum(root);
+        helper(root,sum);
+        return (int)(prod%mod);
+    }
+    public int helper(TreeNode root,long sum){
+        if(root==null){
+            return 0;
+        }
+        int left=helper(root.left,sum);
+        int right=helper(root.right,sum);
+        prod=Math.max(prod,Math.max((sum-left)*left,(sum-right)*right));
+        return left+right+root.val;
+    }
+    public static long sum(TreeNode node){
+        if(node==null){
+            return 0;
+        }
+        return sum(node.left)+sum(node.right)+node.val;
     }
 }
