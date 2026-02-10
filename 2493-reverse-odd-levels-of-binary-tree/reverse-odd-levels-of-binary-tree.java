@@ -15,23 +15,36 @@
  */
 class Solution {
     public TreeNode reverseOddLevels(TreeNode root) {
-        if(root.left==null || root.right==null){
-            return root;
+        Queue<TreeNode> q=new LinkedList<>();
+        q.add(root);
+        int h=0;
+        int size=0;
+        Stack<Integer> st=new Stack<>();
+        while(!q.isEmpty()){
+            if(size==0 && h%2==1){
+                int s=q.size();
+                while(s-->0){
+                    TreeNode d=q.poll();
+                    st.push(d.val);
+                    q.add(d);
+                }
+            }
+            if(size==0){
+                h++;
+                size=q.size();
+            }
+            TreeNode r=q.poll();
+            if(r.left!=null){
+                q.add(r.left);
+            }
+            if(r.right!=null){
+                q.add(r.right);
+            }
+            if(!st.isEmpty()){
+                r.val=st.pop();
+            }
+            size--;
         }
-        helper(root.left,root.right,1);
         return root;
-    }
-    public void helper(TreeNode root1,TreeNode root2,int idx){
-        if(root1==null ||root2==null){
-            return ;
-        }
-        if(idx%2==1){
-            int temp=root1.val;
-            root1.val=root2.val;
-            root2.val=temp;
-        }
-        helper(root1.left,root2.right,idx+1);
-        helper(root2.left,root1.right,idx+1);
-
     }
 }
