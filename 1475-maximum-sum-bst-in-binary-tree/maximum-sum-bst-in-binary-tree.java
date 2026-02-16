@@ -14,33 +14,38 @@
  * }
  */
 class Solution {
-    public int maxSumBST(TreeNode root) {
-        return ValidBst(root).ans;
+    public class pair{
+        boolean isbst=true;
+        int max=Integer.MIN_VALUE;
+        int min=Integer.MAX_VALUE;
+        int sum=0;
+        int msum;
     }
-    public BstPair ValidBst(TreeNode root){
-        if(root == null){
-            return new BstPair();
+    public int maxSumBST(TreeNode root) {
+        pair p=helper(root);
+        return p.msum;
+    }
+    public pair helper(TreeNode node){
+        if(node==null){
+            return new pair();
         }
-        BstPair lbp=ValidBst(root.left);
-        BstPair rbp=ValidBst(root.right);
-        BstPair sbp=new BstPair();
-        sbp.min=Math.min(lbp.min,Math.min(rbp.min,root.val));
-        sbp.max=Math.max(lbp.max,Math.max(rbp.max,root.val));
-        sbp.sum=lbp.sum+rbp.sum+root.val;
-        sbp.isbst=lbp.isbst && rbp.isbst && lbp.max <root.val && rbp.min > root.val;
-        if(sbp.isbst){
-            sbp.ans=Math.max(lbp.ans,Math.max(rbp.ans,sbp.sum));
+        pair left=helper(node.left);
+        pair right=helper(node.right);
+        if(left.isbst && right.isbst && node.val>left.max && node.val<right.min){
+            int min=Math.min(node.val,Math.min(left.min,right.min));
+            int max=Math.max(node.val,Math.max(left.max,right.max));
+            int sum=left.sum+right.sum+node.val;
+            left.min=min;
+            left.max=max;
+            left.msum=Math.max(left.msum,Math.max(right.msum,sum));
+            left.sum=sum;
         }
         else{
-            sbp.ans=Math.max(lbp.ans,rbp.ans);
+            left.isbst=false;
+            left.max=Math.max(left.max,right.max);
+            left.min=Math.min(left.min,right.min);
+            left.msum=Math.max(left.msum,right.msum);
         }
-        return sbp;
-    }
-    class BstPair{
-        boolean isbst =true;
-        long max=Long.MIN_VALUE;
-        long min =Long.MAX_VALUE;
-        int sum=0;
-        int ans=0;//only maximum bst part ka sum
+        return left;
     }
 }
