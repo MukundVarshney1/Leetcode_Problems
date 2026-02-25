@@ -1,11 +1,11 @@
 class Solution {
     public int maxProfit(int[] prices) {
         int n = prices.length;
-        int[][][] dp = new int[n][2][3];
+        int[][][] dp = new int[n][2][2];
 
         for (int i = 0; i < n; i++) {
             for (int h = 0; h < 2; h++) {
-                for (int t = 0; t < 3; t++) {
+                for (int t = 0; t < 2; t++) {
                     dp[i][h][t] = -1;
                 }
             }
