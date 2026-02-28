@@ -2,8 +2,11 @@ class Solution {
     public int concatenatedBinary(int n) {
         long ans=0;
         long mod=1000000007;
+        int len=0;
         for(int i=1;i<=n;i++){
-            int len=(int)(Math.log(i)/Math.log(2))+1;
+            if((i&(i-1))==0){
+                len++;
+            }
             ans=((ans<<len)+i)%mod;
         }
         return (int)ans;
