@@ -7,7 +7,6 @@ class Solution {
             sb.append('1');
             sb.append(s);
         }
-        System.out.println(sb);
         return sb.charAt(k-1);
     }
     public String helper(StringBuilder sb){
