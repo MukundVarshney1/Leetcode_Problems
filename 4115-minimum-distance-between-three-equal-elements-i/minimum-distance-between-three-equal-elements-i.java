@@ -3,13 +3,15 @@ class Solution {
         int ans=Integer.MAX_VALUE;
         for(int i=0;i<nums.length;i++){
             for(int j=i+1;j<nums.length;j++){
-                for(int k=j+1;k<nums.length;k++){
-                    if(nums[i]==nums[j] && nums[j]==nums[k]){
-                        ans=Math.min(ans,j-i+k-j+k-i);
+                if(nums[i]==nums[j]){
+                    for(int k=j+1;k<nums.length;k++){
+                        if(nums[j]==nums[k]){
+                            ans=Math.min(ans,2*(k-i));
+                        }
                     }
                 }
             }
         }
-        return ans!=Integer.MAX_VALUE?ans:-1;
+        return ans==Integer.MAX_VALUE?-1:ans;
     }
 }
