@@ -1,54 +1,52 @@
 class Solution {
     public int orangesRotting(int[][] grid) {
-       int m=0;
-       int f=0;
-       Queue<pair> q=new LinkedList<>();
-       for(int i=0;i<grid.length;i++){
-        for(int j=0;j<grid[0].length;j++){
-            if(grid[i][j]==1){
-                f++;
-            }
-        }
-       }
-        while(f>0){
-            int c=0;
-            for(int i=0;i<grid.length;i++){
-                for(int j=0;j<grid[0].length;j++){
-                    if(grid[i][j]==1){
-if(helper(grid,i-1,j,i,j,q) || helper(grid,i+1,j,i,j,q) || helper(grid,i,j-1,i,j,q) || helper(grid,i,j+1,i,j,q)){
-    c++;
-}
-                    }
+        int ans = 0;
+        Queue<pair> q = new LinkedList<>();
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 2) {
+                    q.add(new pair(i, j,0));
                 }
             }
-            if(c==0){
-                return -1;
+        }
+        while (!q.isEmpty()) {
+            pair qp = q.poll();
+            helper(grid, qp.i - 1, qp.j, q,qp.ans);
+            helper(grid, qp.i + 1, qp.j, q,qp.ans);
+            helper(grid, qp.i, qp.j - 1, q,qp.ans);
+            helper(grid, qp.i, qp.j + 1, q,qp.ans);
+            ans = qp.ans;
+        }
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 1) {
+                    return -1;
+                }
             }
-            while(!q.isEmpty()){
-                pair x=q.poll();
-                grid[x.a][x.b]=2;
-            }
-            f-=c;
-            m++;
         }
-        return m;
+        return ans;
     }
-    public boolean helper(int[][] grid,int i,int j,int a,int b,Queue<pair> q){
-        if(i<0 || j<0 || i==grid.length || j==grid[0].length){
-            return false;
+
+    public void helper(int[][] g, int i, int j, Queue<pair> q,int ans) {
+        if (i < 0 || j < 0 || i >= g.length || j >= g[0].length) {
+            return;
         }
-        if(grid[i][j]==2){
-           q.add(new pair(a,b));
-           return true;
+        if (g[i][j] == 1) {
+            q.add(new pair(i, j,ans+1));
+            g[i][j]=2;
         }
-        return false;
+
     }
-    public class pair{
-        int a;
-        int b;
-        pair(int a,int b){
-            this.a=a;
-            this.b=b;
+
+    class pair {
+        int i;
+        int j;
+        int ans = 0;
+
+        pair(int a, int b,int ans) {
+            this.i = a;
+            this.j = b;
+            this.ans=ans;
         }
     }
 }
